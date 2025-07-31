@@ -1,0 +1,374 @@
+/* General Styles */
+:root {
+    --bg-color-light: #f0f2f5;
+    --text-color-light: #333;
+    --card-bg-light: #ffffff;
+    --card-shadow-light: rgba(0, 0, 0, 0.1);
+    --header-bg-light: rgba(255, 255, 255, 0.9);
+    --border-color-light: #e0e0e0;
+
+    --bg-color-dark: #2c3e50;
+    --text-color-dark: #ecf0f1;
+    --card-bg-dark: #34495e;
+    --card-shadow-dark: rgba(0, 0, 0, 0.4);
+    --header-bg-dark: rgba(44, 62, 80, 0.9);
+    --border-color-dark: #4a627a;
+
+    --day-card-bg: linear-gradient(135deg, #e0f2f7, #c1e4f3); /* Light blue for day */
+    --night-card-bg: linear-gradient(135deg, #2c3e50, #1a2731); /* Dark blue/grey for night */
+    --day-text-color: #333;
+    --night-text-color: #ecf0f1;
+    --day-icon-color: #f39c12; /* Sun color */
+    --night-icon-color: #f1c40f; /* Moon color */
+
+    --transition-speed: 0.3s ease-in-out;
+}
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: var(--text-color-light);
+    background-color: var(--bg-color-light);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    background-image: url('images/world-map-blurred.jpg'); /* Ensure this path is correct */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Makes background static when scrolling */
+    position: relative;
+}
+
+/* Dark Theme */
+body.dark-theme {
+    color: var(--text-color-dark);
+    background-color: var(--bg-color-dark);
+}
+
+body.dark-theme .dashboard-header {
+    background-color: var(--header-bg-dark);
+}
+
+body.dark-theme .clock-card {
+    background-color: var(--card-bg-dark);
+    box-shadow: 0 8px 25px var(--card-shadow-dark);
+}
+
+body.dark-theme .theme-switch-container {
+    background-color: var(--card-bg-dark);
+    border-color: var(--border-color-dark);
+    box-shadow: 0 4px 15px var(--card-shadow-dark);
+}
+
+/* Background Overlay for readability */
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Light overlay for light theme */
+    z-index: -1; /* Behind content */
+    transition: background-color var(--transition-speed);
+}
+
+body.dark-theme .background-overlay {
+    background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for dark theme */
+}
+
+
+/* Theme Switch */
+.theme-switch-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--card-bg-light);
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px var(--card-shadow-light);
+    border: 1px solid var(--border-color-light);
+    z-index: 1000; /* On top of everything */
+    transition: all var(--transition-speed);
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(22px);
+    -ms-transform: translateX(22px);
+    transform: translateX(22px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 28px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.theme-label {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    transition: color var(--transition-speed);
+}
+body.dark-theme .theme-label {
+    color: var(--text-color-dark);
+}
+
+
+/* Header */
+.dashboard-header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    background-color: var(--header-bg-light);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px var(--card-shadow-light);
+    transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+    position: sticky; /* Make header sticky */
+    top: 0;
+    z-index: 999; /* Below theme switch but above cards */
+}
+
+.dashboard-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    color: var(--text-color-light);
+    transition: color var(--transition-speed);
+}
+body.dark-theme .dashboard-header h1 {
+    color: var(--text-color-dark);
+}
+
+.dashboard-header p {
+    font-size: 1.1em;
+    color: var(--text-color-light);
+    transition: color var(--transition-speed);
+}
+body.dark-theme .dashboard-header p {
+    color: var(--text-color-dark);
+}
+
+/* Clock Grid */
+.clock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto 50px auto; /* Bottom margin for scrolling */
+    flex-grow: 1; /* Allows grid to take up available space */
+}
+
+/* Clock Card */
+.clock-card {
+    background-color: var(--card-bg-light); /* Default light background */
+    border-radius: 15px;
+    box-shadow: 0 8px 25px var(--card-shadow-light);
+    padding: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 220px; /* Ensures consistent card height */
+    position: relative;
+    overflow: hidden; /* For smooth transitions of day/night elements */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease;
+}
+
+.clock-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px var(--card-shadow-light);
+}
+body.dark-theme .clock-card:hover {
+    box-shadow: 0 12px 35px var(--card-shadow-dark);
+}
+
+/* Day/Night Specific Card Styles */
+.clock-card.is-day {
+    background: var(--day-card-bg);
+    color: var(--day-text-color);
+}
+
+.clock-card.is-night {
+    background: var(--night-card-bg);
+    color: var(--night-text-color);
+}
+
+.card-header {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.card-city {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.card-country {
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+.card-time {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5em; /* Large time display */
+    font-weight: 600;
+    margin: 15px 0;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    width: 100%;
+}
+
+.card-time .ampm {
+    font-size: 0.4em; /* Smaller AM/PM */
+    align-self: flex-end; /* Align AM/PM to bottom of time */
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.card-date {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Day/Night Icon */
+.card-day-night-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 2.5em; /* Large icon */
+    opacity: 0.6;
+    transition: color 0.5s ease;
+}
+
+.card-day-night-icon::before {
+    /* FontAwesome or other icon font can be used here. For simplicity, we use emojis or basic shapes. */
+    content: '☀️'; /* Default to sun for day */
+}
+
+.clock-card.is-day .card-day-night-icon::before {
+    content: '☀️'; /* Sun icon */
+    color: var(--day-icon-color);
+}
+
+.clock-card.is-night .card-day-night-icon::before {
+    content: '🌙'; /* Moon icon */
+    color: var(--night-icon-color);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-header h1 {
+        font-size: 2.2em;
+    }
+
+    .dashboard-header p {
+        font-size: 1em;
+    }
+
+    .clock-grid {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .clock-card {
+        padding: 20px;
+    }
+
+    .card-time {
+        font-size: 3em;
+    }
+
+    .card-city {
+        font-size: 1.8em;
+    }
+
+    .theme-switch-container {
+        top: 15px;
+        right: 15px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header {
+        padding: 30px 15px 15px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.8em;
+    }
+
+    .dashboard-header p {
+        font-size: 0.9em;
+    }
+
+    .card-time {
+        font-size: 2.8em;
+    }
+}
